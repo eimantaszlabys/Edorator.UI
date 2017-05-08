@@ -1,0 +1,9 @@
+//bootstrap font Path override
+$icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
+@import "~bootstrap-sass/assets/stylesheets/_bootstrap";
+
+//custom styles
+@import 'login';
+@import './_general';
+@import '_loader';
+@import '_custom';

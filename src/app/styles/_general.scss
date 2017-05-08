@@ -1,0 +1,21 @@
+//overlay for the loader
+.overlay {
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: 1031;
+    background-color: rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+//padding to make space for the navbar
+body {
+    padding-top: 70px;
+    padding-bottom: 30px;
+}
+
+.padding-v-30 {
+    padding: 0 30px;
+}
