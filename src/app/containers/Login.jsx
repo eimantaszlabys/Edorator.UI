@@ -1,9 +1,12 @@
 import React, { PropTypes, Component } from 'react';
 import axios from 'axios';
 import $ from 'jquery';
-import { Redirect } from 'react-router'
+
+import { Cookies } from 'react-cookie';
+const cookies = new Cookies();
 
 class Login extends Component{
+
     constructor(props){
         super(props);
         this.state = {
@@ -16,6 +19,7 @@ class Login extends Component{
 
         this.handleChange = this.handleChange.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
+        this.handleCreate = this.handleCreate.bind(this);
     }
     
     handleChange(event) {
@@ -25,30 +29,35 @@ class Login extends Component{
     }
     
     handleLogin() {
-        axios.post('http://localhost:3001/api/accounts/login',
-            {
-                "Email": this.state.loginEmail,
-                "Password": this.state.loginPassword
-            },
-            {
-                headers: {
-                    "Content-Type": "application/json"
-                }
+        axios.post('http://localhost:5001/api/accounts/login',
+        {
+            "Email": this.state.loginEmail,
+            "Password": this.state.loginPassword
+        },
+        {
+            headers: {
+                "Content-Type": "application/json"
             }
-        ).then((response) => {
-            <Redirect to="/home"/>
         })
-        .catch((error) => {
-            throw Error(error);
+        .then(function (response) {
+            console.log('login',response);
+            cookies.set('edoratorAccessToken', response.data.accessToken, {
+                expires: new Date(Date.now + response.data.expiresIn)
+            });
+
+            <Redirect to="/"/>
+        })
+        .catch(function (error) {
+            console.log(error);
         });
     }
-
+    
     handleCreateAccount() {
         $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
     }
 
     handleCreate() {
-        axios.post('http://localhost:3001/api/accounts/register',
+        axios.post('http://localhost:5001/api/accounts/register',
             {
                 "Email": this.state.registerEmail,
                 "Password": this.state.registerPassword,
@@ -79,8 +88,8 @@ class Login extends Component{
                         <p className="message">Already registered? <a href="#" onClick={this.handleCreateAccount}>Sign In</a></p>
                     </form>
                     <form className="login-form">
-                        <input name="loginEmail" onChange={this.handleChange} type="email" placeholder="Email"/>
-                        <input name="loginPassword" onChange={this.handleChange} type="password" placeholder="Password"/>
+                        <input name="loginEmail" value={this.props.loginEmail} type="email" placeholder="Email"/>
+                        <input name="loginPassword" value={this.props.loginPassword} type="password" placeholder="Password"/>
                         <button onClick={this.handleLogin}>login</button>
                         <p className="message">Not registered? <a href="#" onClick={this.handleCreateAccount}>Create an account</a></p>
                     </form>

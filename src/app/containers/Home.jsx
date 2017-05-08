@@ -1,20 +1,28 @@
 import React, { PropTypes, Component } from 'react';
+import { Redirect } from 'react-router-dom'; 
 import { instanceOf } from 'prop-types';
-import { CookiesProvider, withCookies, Cookies } from 'react-cookie';
+
+import { Cookies } from 'react-cookie';
+const cookies = new Cookies();
 
 class Home extends Component {
-    static propTypes = {
-        cookies: instanceOf(Cookies).isRequired
-    };
+    constructor(){
+        super();
 
-    componentWillMount() {
-        const { cookies } = this.props;
-        console.log(cookies);
-    
-        // console.log(cookies.get('.AspNetCore.Identity.Application'));
+        this.isAnonymous = this.isAnonymous.bind(this);
+    }
+
+    isAnonymous(){
+        return !cookies.get('edoratorAccessToken');
     }
 
     render() {
+        if (this.isAnonymous()) {
+            return (
+                <Redirect to={'/login'}/>
+            )
+        }
+
         return(
             <div>aaa</div>
         );
