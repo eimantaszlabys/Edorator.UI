@@ -8,7 +8,7 @@ import reducer from './reducers';
 const middlewareConfig = [thunk];
 
 if (process.env.NODE_ENV === 'development') {
-    middlewareConfig.push(logger());
+    middlewareConfig.push(logger);
 }
 
 const middleware = applyMiddleware(...middlewareConfig);
