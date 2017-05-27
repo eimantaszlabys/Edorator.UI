@@ -4,6 +4,7 @@ import { logout } from '../actions/auth';
 
 import { Modal, Button } from 'react-bootstrap';
 import Menu from '../components/Menu';
+import AddService from '../components/AddService';
 import ServicesList from '../components/ServicesList';
 
 class Home extends Component {
@@ -24,7 +25,7 @@ class Home extends Component {
         this.setState({ showAddServiceModal: false });
     }   
 
-    openAddServiceModal() {
+    addNewService() {
         this.setState({ showAddServiceModal: true });
     }
     
@@ -34,24 +35,10 @@ class Home extends Component {
                 <Menu logOutClick={(e) => this.userLogout(e)}/>
                 <ServicesList 
                     servicesList={this.state.services}
-                    addService={this.openAddServiceModal.bind(this)}
+                    addService={() => this.addNewService()}
                 />  
 
-                <Modal show={this.state.showAddServiceModal} onHide={this.closeAddServiceModal}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Modal heading</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <h4>Text in a modal</h4>
-                        <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula.</p>
-
-                        <h4>Popover in a modal</h4>
-                        <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button onClick={this.closeAddServiceModal.bind(this)}>Close</Button>
-                    </Modal.Footer>
-                </Modal>
+                { this.state.showAddServiceModal ? <AddService /> : ''}
             </div>
         );
     }

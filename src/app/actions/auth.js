@@ -7,7 +7,8 @@ export const login = (username, password) => {
      return (dispatch) => {
         return security.Login(username, password)
             .then((response) => {
-                cookies.set('edoratorAuth', response.data.accessToken)
+                console.log(response.data);
+                cookies.set('edoratorAuth', response.data.tokeyType + ' ' + response.data.accessToken)
                 return response;
             })
             .then((response) => {
