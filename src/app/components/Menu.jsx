@@ -15,10 +15,6 @@ const Menu = ({logOutClick}) => (
             </div>
 
             <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul className="nav navbar-nav navbar-left">
-                    <li><a href="/addService">Add Service</a></li>
-                </ul>
-
                 <ul className="nav navbar-nav navbar-right">
                     <li><a href="/login" onClick={(e) => logOutClick(e)}>Logout</a></li>
                 </ul>
