@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-function Login(email, password){
+function Login(username, password){
     return axios.post('http://localhost:5001/api/accounts/login',
             {
-                "Email": email,
+                "Email": username,
                 "Password": password
             },
             {
@@ -13,6 +13,16 @@ function Login(email, password){
         });
 }
 
+function Logout(auth){
+    return axios.post('http://localhost:5001/api/accounts/logout',
+    null,
+    {
+        "Content-Type": "application/json",
+        "Authorization": auth
+    })
+}
+
 export default {
-    Login
+    Login,
+    Logout
 };

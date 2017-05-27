@@ -7,9 +7,7 @@ import store from './store';
 
 import './styles/bundle.scss';
 
-
-import reducers from './reducers'
-import App from './containers/App';
+import App from './pages/App';
 
 ReactDOM.render(
   <Provider store={store}>

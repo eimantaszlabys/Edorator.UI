@@ -1,13 +1,41 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { login } from '../actions/auth';
+import $ from 'jquery';
 
-const LoginForm = ({ 
-        onLoginClick,
-        onSignUpClick, 
-        onChange,
-        errorMessage 
-    }) => (
-    <div className="panel panel-info">
+
+class Login extends Component {
+    constructor (props) {
+        super(props);
+        this.state = {
+            username: '',
+            password: ''
+        };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        $('#loginalert').hide();
+        if(nextProps.isLoggedIn === false && nextProps.errorMessage){
+            $('#loginalert').show();
+        }
+    }
+
+    userLogin (e) {
+        this.props.onLogin(this.state.username, this.state.password);
+        e.preventDefault();
+    }
+
+    handleChange(e) {
+        var name = e.target.name;
+
+        this.setState({
+            [name]: e.target.value
+        })
+    }
+
+    render() {
+        return (
+           <div className="panel panel-info">
             <div className="panel-heading">
                 <div className="panel-title">Sign In</div>
                 <div style={{float:'right', fontSize: '80%', position: 'relative', top:'-10px'}}><a href="#">Forgot password?</a></div>
@@ -18,18 +46,18 @@ const LoginForm = ({
                 
                 <form id="loginform" className="form-horizontal" role="form">
                     <div id="loginalert" style={{display: 'none'}} className="alert alert-danger">
-                        <p>{errorMessage}</p>
+                        <p>{this.props.errorMessage}</p>
                         <span></span>
                     </div>
 
                     <div style={{marginBottom: '25px'}} className="input-group">
                         <span className="input-group-addon"><i className="glyphicon glyphicon-user"></i></span>
-                        <input id="login-username" type="email" className="form-control" onChange={onChange} name="loginEmail" placeholder="email"/>                                        
+                        <input id="login-username" type="email" className="form-control" onChange={(e) => this.handleChange(e)} name="username" placeholder="email"/>                                        
                     </div>
                     
                         <div style={{marginBottom: '25px'}} className="input-group">
                         <span className="input-group-addon"><i className="glyphicon glyphicon-lock"></i></span>
-                        <input id="login-password" type="password" className="form-control" onChange={onChange} name="loginPassword" placeholder="password" />
+                        <input id="login-password" type="password" className="form-control" onChange={(e) => this.handleChange(e)} name="password" placeholder="password" />
                     </div>
 
                         <div className="input-group">
@@ -42,7 +70,7 @@ const LoginForm = ({
 
                     <div style={{marginTop: '10px'}} className="form-group">
                         <div className="col-sm-12 controls">
-                            <a id="btn-login" onClick={onLoginClick} className="btn btn-success">Login  </a>
+                            <a id="btn-login" onClick={(e) => this.userLogin(e)} className="btn btn-success">Login  </a>
                         </div>
                     </div>
 
@@ -50,22 +78,31 @@ const LoginForm = ({
                         <div className="col-md-12 control">
                             <div style={{borderTop: '1px solid#888', paddingTop: '15px', fontSize: '85%'}} >
                                 Don't have an account! 
-                            <a href="#" onClick={onSignUpClick}>
+                            {/*<a href="#" onClick={onSignUpClick}>
                                 Sign Up Here
-                            </a>
+                            </a>*/}
                             </div>
                         </div>
                     </div>    
                 </form>     
             </div>
         </div>
-);
-
-LoginForm.PropTypes = {
-    onLoginClick: PropTypes.func.isRequired,
-    onSignUpClick: PropTypes.func.isRequired,
-    onChange: PropTypes.func.isRequired,
-    errorMessage: PropTypes.string.isRequired
+        );
+    }
 }
 
-export default LoginForm;
+
+const mapStateToProps = (state, ownProps) => {
+    return {
+        isLoggedIn: state.auth.isLoggedIn,
+        errorMessage: state.auth.errorMessage
+    };
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onLogin: (username, password) => { dispatch(login(username, password)); }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
