@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { logout } from '../actions/auth';
+
+import { Modal, Button } from 'react-bootstrap';
 import Menu from '../components/Menu';
 import ServicesList from '../components/ServicesList';
 
@@ -8,7 +10,8 @@ class Home extends Component {
      constructor (props) {
         super(props);
         this.state = {
-            services: []
+            services: [],
+            showAddServiceModal: false
         };
     }
 
@@ -17,17 +20,12 @@ class Home extends Component {
         e.preventDefault();
     }
 
-    addService(){
-        var list = this.state.services;
-        console.log(list);
-        list.push({
-                name: 'ss',
-                address: 'ss',
-                status: 's'
-            });
-        this.setState({
-            services: list
-        })
+    closeAddServiceModal() {
+        this.setState({ showAddServiceModal: false });
+    }   
+
+    openAddServiceModal() {
+        this.setState({ showAddServiceModal: true });
     }
     
     render() {
@@ -36,8 +34,24 @@ class Home extends Component {
                 <Menu logOutClick={(e) => this.userLogout(e)}/>
                 <ServicesList 
                     servicesList={this.state.services}
-                    addService={() => this.addService()}
-                />        
+                    addService={this.openAddServiceModal.bind(this)}
+                />  
+
+                <Modal show={this.state.showAddServiceModal} onHide={this.closeAddServiceModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Modal heading</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <h4>Text in a modal</h4>
+                        <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula.</p>
+
+                        <h4>Popover in a modal</h4>
+                        <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={this.closeAddServiceModal.bind(this)}>Close</Button>
+                    </Modal.Footer>
+                </Modal>
             </div>
         );
     }
