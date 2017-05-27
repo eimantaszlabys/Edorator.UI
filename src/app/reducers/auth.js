@@ -4,7 +4,7 @@ import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
 const defaultState = {
-    isLoggedIn: cookies.get('edoratorAuth'),
+    isLoggedIn: cookies.get('edoratorAuth') != null,
     errorMessage: ''
 };
 
