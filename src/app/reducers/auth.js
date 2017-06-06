@@ -18,9 +18,14 @@ export default function reducer(state = defaultState, action) {
                 errorMessage: action.errorMessage
             }
         }
-        case 'LOGOUT':
+        case 'LOGOUT_SUCCESS':
             return Object.assign({}, state, { 
                 isLoggedIn: false
+            });
+        case 'LOGOUT_ERROR':
+            return Object.assign({}, state, { 
+                isLoggedIn: true,
+                errorMessage: action.errorMessage
             });
         default:
             return state;

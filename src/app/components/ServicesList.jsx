@@ -1,34 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+
 const ServicesList = ({addService, servicesList}) => (
     <div>
         <button type="button" className="btn btn-primary" onClick={addService}>Add Service</button>
 
-        <div>
-            <table className="table">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>IP Address</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {servicesList.map((x, i) => {
-                        i++;
-                        return (
-                            <tr key={i}>
-                                <td>{i}</td>
-                                <td>{x.name}</td>
-                                <td>{x.address}</td>
-                                <td>{x.status}</td>
-                            </tr>)
-                    })}
-                </tbody>
-            </table>
-        </div>
+        <BootstrapTable data={servicesList} striped={true} hover={true}>
+            <TableHeaderColumn dataField="name" isKey={true} dataAlign="center" dataSort={true}>Product ID</TableHeaderColumn>
+            <TableHeaderColumn dataField="address" dataSort={true}>Product Name</TableHeaderColumn>
+            <TableHeaderColumn dataField="status">Status</TableHeaderColumn>
+        </BootstrapTable>
     </div>
 );
 

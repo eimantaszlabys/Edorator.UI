@@ -25,6 +25,12 @@ class AddService extends Component {
     componentWillMount() {
         this.setState({ showModal: true });
     }
+
+    componentWillReceiveProps(nextProps) {
+        if(!nextProps.errorMessage){
+            this.close();
+        }
+    }
     
     close() {
         this.setState({ showModal: false });

@@ -8,7 +8,7 @@ export const login = (username, password) => {
         return security.Login(username, password)
             .then((response) => {
                 console.log(response.data);
-                cookies.set('edoratorAuth', response.data.tokeyType + ' ' + response.data.accessToken)
+                cookies.set('edoratorAuth', response.data.accessToken)
                 return response;
             })
             .then((response) => {
@@ -24,10 +24,14 @@ export const logout = () => {
     return (dispatch) => {
         return security.Logout(cookies.get('edoratorAuth'))
             .then((response) => {
+                console.log(response);
                 cookies.remove('edoratorAuth');
             }) 
             .then(() => {
-                dispatch({type: 'LOGOUT'})
+                dispatch({type: 'LOGOUT_SUCCESS'})
+            })
+            .catch(error => { 
+                dispatch({ type: 'LOGOUT_ERROR', errorMessage: error.message })
             });
     };
 };

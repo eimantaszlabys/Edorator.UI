@@ -2,18 +2,27 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { logout } from '../actions/auth';
 
-import { Modal, Button } from 'react-bootstrap';
 import Menu from '../components/Menu';
 import AddService from '../components/AddService';
 import ServicesList from '../components/ServicesList';
+
+import { loadServices } from '../actions/services'
+
+import { Alert,  } from 'react-bootstrap';
 
 class Home extends Component {
      constructor (props) {
         super(props);
         this.state = {
-            services: [],
             showAddServiceModal: false
         };
+    }
+
+    componentWillMount() {
+        this.props.loadServices();
+    }
+
+    componentWillReceiveProps(nextProps) {
     }
 
     userLogout(e) {
@@ -21,20 +30,22 @@ class Home extends Component {
         e.preventDefault();
     }
 
-    closeAddServiceModal() {
-        this.setState({ showAddServiceModal: false });
-    }   
-
     addNewService() {
         this.setState({ showAddServiceModal: true });
     }
     
     render() {
+        if(!this.props.services){
+            return <div>Loading...</div>
+        }
         return (
             <div>
                 <Menu logOutClick={(e) => this.userLogout(e)}/>
+                { this.props.errorMessage ?  <Alert bsStyle="danger"> 
+                                <strong>Error!</strong> {this.props.errorMessage}
+                            </Alert> : '' }
                 <ServicesList 
-                    servicesList={this.state.services}
+                    servicesList={this.props.services}
                     addService={() => this.addNewService()}
                 />  
 
@@ -47,13 +58,16 @@ class Home extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        accessToken: state.auth.accessToken
+        accessToken: state.auth.accessToken,
+        errorMessage: state.services.errorMessage,
+        services: state.services.services
     };
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onLogout: () => { dispatch(logout()); }
+        onLogout: () => { dispatch(logout()); },
+        loadServices: () => { dispatch(loadServices())}
     }
 }
 

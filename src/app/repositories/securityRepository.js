@@ -13,13 +13,17 @@ function Login(username, password){
         });
 }
 
-function Logout(auth){
+function Logout(token){
+     var config = {
+        headers: {'Authorization': "bearer" + token}
+   };
+
     return axios.post('http://localhost:5001/api/accounts/logout',
-    null,
-    {
-        "Content-Type": "application/json",
-        "Authorization": auth
-    })
+        null,
+        {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer"  + token,
+        });
 }
 
 export default {
