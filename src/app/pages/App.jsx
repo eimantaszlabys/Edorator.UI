@@ -13,10 +13,10 @@ class Application extends Component {
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
     return {
         isLoggedIn: state.auth.isLoggedIn
     };
-}
+};
 
 export default connect(mapStateToProps)(Application);

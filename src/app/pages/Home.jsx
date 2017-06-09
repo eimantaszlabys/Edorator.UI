@@ -6,12 +6,12 @@ import Menu from '../components/Menu';
 import AddService from '../components/AddService';
 import ServicesList from '../components/ServicesList';
 
-import { loadServices } from '../actions/services'
+import { loadServices } from '../actions/services';
 
 import { Alert,  } from 'react-bootstrap';
 
 class Home extends Component {
-     constructor (props) {
+    constructor (props) {
         super(props);
         this.state = {
             showAddServiceModal: false
@@ -33,7 +33,7 @@ class Home extends Component {
     
     render() {
         if(!this.props.services){
-            return <div>Loading...</div>
+            return <div>Loading...</div>;
         }
         return (
             <div>
@@ -57,19 +57,19 @@ class Home extends Component {
 }
 
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
     return {
         accessToken: state.auth.accessToken,
         errorMessage: state.services.errorMessage,
         services: state.services.services
     };
-}
+};
 
 const mapDispatchToProps = (dispatch) => {
     return {
         onLogout: () => { dispatch(logout()); },
         loadServices: () => { dispatch(loadServices())}
-    }
-}
+    };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

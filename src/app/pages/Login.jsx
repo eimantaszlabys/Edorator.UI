@@ -30,7 +30,7 @@ class Login extends Component {
 
         this.setState({
             [name]: e.target.value
-        })
+        });
     }
 
     render() {
@@ -42,21 +42,21 @@ class Login extends Component {
             </div>   
 
             <div style={{paddingTop:'30px'}} className="panel-body">
-                <div style={{display:'none'}} id="login-alert" className="alert alert-danger col-sm-12"></div>
+                <div style={{display:'none'}} id="login-alert" className="alert alert-danger col-sm-12" />
                 
                 <form id="loginform" className="form-horizontal" role="form">
                     <div id="loginalert" style={{display: 'none'}} className="alert alert-danger">
                         <p>{this.props.errorMessage}</p>
-                        <span></span>
+                        <span />
                     </div>
 
                     <div style={{marginBottom: '25px'}} className="input-group">
-                        <span className="input-group-addon"><i className="glyphicon glyphicon-user"></i></span>
+                        <span className="input-group-addon"><i className="glyphicon glyphicon-user" /></span>
                         <input id="login-username" type="email" className="form-control" onChange={(e) => this.handleChange(e)} name="username" placeholder="email"/>                                        
                     </div>
                     
                         <div style={{marginBottom: '25px'}} className="input-group">
-                        <span className="input-group-addon"><i className="glyphicon glyphicon-lock"></i></span>
+                        <span className="input-group-addon"><i className="glyphicon glyphicon-lock" /></span>
                         <input id="login-password" type="password" className="form-control" onChange={(e) => this.handleChange(e)} name="password" placeholder="password" />
                     </div>
 
@@ -92,17 +92,17 @@ class Login extends Component {
 }
 
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
     return {
         isLoggedIn: state.auth.isLoggedIn,
         errorMessage: state.auth.errorMessage
     };
-}
+};
 
 const mapDispatchToProps = (dispatch) => {
     return {
         onLogin: (username, password) => { dispatch(login(username, password)); }
-    }
-}
+    };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

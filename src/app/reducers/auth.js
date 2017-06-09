@@ -8,26 +8,26 @@ const defaultState = {
 
 export default function reducer(state = defaultState, action) {
     switch (action.type) {
-        case 'LOGIN_SUCCESS': 
-            return Object.assign({}, state, { 
-                isLoggedIn: true
-            });
-        case 'LOGIN_ERROR':{
-            return Object.assign({}, state), {
-                isLoggedIn: false,
-                errorMessage: action.errorMessage
-            }
-        }
-        case 'LOGOUT_SUCCESS':
-            return Object.assign({}, state, { 
-                isLoggedIn: false
-            });
-        case 'LOGOUT_ERROR':
-            return Object.assign({}, state, { 
-                isLoggedIn: true,
-                errorMessage: action.errorMessage
-            });
-        default:
-            return state;
+    case 'LOGIN_SUCCESS': 
+        return Object.assign({}, state, { 
+            isLoggedIn: true
+        });
+    case 'LOGIN_ERROR':{
+        return Object.assign({}, state), {
+            isLoggedIn: false,
+            errorMessage: action.errorMessage
+        };
+    }
+    case 'LOGOUT_SUCCESS':
+        return Object.assign({}, state, { 
+            isLoggedIn: false
+        });
+    case 'LOGOUT_ERROR':
+        return Object.assign({}, state, { 
+            isLoggedIn: true,
+            errorMessage: action.errorMessage
+        });
+    default:
+        return state;
     }
 }

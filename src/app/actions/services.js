@@ -12,8 +12,8 @@ export const addService = (name, address) => {
             })
             .catch(error => { 
                 dispatch({ type: 'ADD_SERVICE_ERROR', errorMessage: error.message })
-            })
-    }
+            });
+    };
 };
 
 export const loadServices = () => {
@@ -24,6 +24,6 @@ export const loadServices = () => {
             })
             .catch(error => { 
                 dispatch({ type: 'LOAD_SERVICES_ERROR', errorMessage: error.message })
-            })
-    }
-}
+            });
+    };
+};

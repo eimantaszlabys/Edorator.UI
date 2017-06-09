@@ -9,7 +9,7 @@ import {
     Alert
 } from 'react-bootstrap';
 
-import { addService } from '../actions/services'
+import { addService } from '../actions/services';
 
 class AddService extends Component {
     constructor(props){
@@ -81,16 +81,16 @@ class AddService extends Component {
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
     return {
         errorMessage: state.services.errorMessage
     };
-}
+};
 
 const mapDispatchToProps = (dispatch) => {
     return {
         addService: (name, address) => { dispatch(addService(name, address)); }
-    }
-}
+    };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddService);

@@ -24,6 +24,9 @@
     "css-loader": "^0.28.1",
     "del-cli": "^0.2.1",
     "eslint": "^3.19.0",
+    "eslint-config-defaults": "^9.0.0",
+    "eslint-config-google": "^0.8.0",
+    "eslint-plugin-react": "^7.0.1",
     "express": "^4.15.2",
     "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "^0.11.1",
@@ -41,6 +44,7 @@
   },
   "dependencies": {
     "axios": "^0.16.1",
+    "babel-eslint": "^7.2.3",
     "body-parser": "^1.17.1",
     "bootstrap-sass": "^3.3.7",
     "cookie-parser": "^1.4.3",

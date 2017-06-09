@@ -4,34 +4,32 @@ import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
 export const login = (username, password) => {
-     return (dispatch) => {
+    return (dispatch) => {
         return security.Login(username, password)
             .then((response) => {
-                console.log(response.data);
                 cookies.set('edoratorAuth', response.data.accessToken)
                 return response;
             })
-            .then((response) => {
-                dispatch({ type: 'LOGIN_SUCCESS'})
+            .then(() => {
+                dispatch({ type: 'LOGIN_SUCCESS'});
             })
             .catch(error => { 
                 dispatch({ type: 'LOGIN_ERROR', errorMessage: error.message })
-            })
+            });
     };
 };
 
 export const logout = () => {
     return (dispatch) => {
         return security.Logout(cookies.get('edoratorAuth'))
-            .then((response) => {
-                console.log(response);
+            .then(() => {
                 cookies.remove('edoratorAuth');
             }) 
             .then(() => {
-                dispatch({type: 'LOGOUT_SUCCESS'})
+                dispatch({type: 'LOGOUT_SUCCESS'});
             })
             .catch(error => { 
-                dispatch({ type: 'LOGOUT_ERROR', errorMessage: error.message })
+                dispatch({ type: 'LOGOUT_ERROR', errorMessage: error.message });
             });
     };
 };

@@ -2,27 +2,24 @@ import axios from 'axios';
 
 function Login(username, password){
     return axios.post('http://localhost:5001/api/accounts/login',
-            {
-                "Email": username,
-                "Password": password
-            },
-            {
+        {
+            'Email': username,
+            'Password': password
+        },
+        {
             headers: {
-                "Content-Type": "application/json"
+                'Content-Type': 'application/json'
             }
-        });
+        }
+    );
 }
 
 function Logout(token){
-     var config = {
-        headers: {'Authorization': "bearer" + token}
-   };
-
     return axios.post('http://localhost:5001/api/accounts/logout',
         null,
         {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer"  + token,
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer'  + token,
         });
 }
 

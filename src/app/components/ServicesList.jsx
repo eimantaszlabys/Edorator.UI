@@ -9,11 +9,11 @@ class ServicesList extends React.Component {
     }
 
     renderStatus(status){
-        var element = <span>{status}</span>
+        var element = <span>{status}</span>;
         switch (status) {
-            case 'Active':
-                element = <span className="label label-success">{status}</span>
-                break;
+        case 'Active':
+            element = <span className="label label-success">{status}</span>;
+            break;
         }
 
         return element;
@@ -21,20 +21,20 @@ class ServicesList extends React.Component {
     
     render(){
         if(!this.props.data){
-            return <div>Loading...</div>
+            return <div>Loading...</div>;
         }
 
         let rows = [];
 
         this.props.data.forEach(function(item) {
-            var item = 
+            var element = 
                 <tr key={item.address}>
                     <td>{item.name}</td>
                     <td>{item.address}</td>
                     <td>{this.renderStatus(item.status)}</td>
-                </tr>
+                </tr>;
 
-            rows.push(item);
+            rows.push(element);
         }, this);
 
         return(
@@ -52,13 +52,13 @@ class ServicesList extends React.Component {
                     </tbody>
                 </table>
             </div>
-        )
+        );
 
     }
 }
 
 ServicesList.propTypes  ={
-    data: PropTypes.array.isRequired
-}
+    data: PropTypes.array
+};
 
 export default ServicesList;
