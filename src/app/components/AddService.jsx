@@ -37,8 +37,8 @@ class AddService extends Component {
     }
 
     save(e) {
-        this.props.addService(this.state.name.value, this.state.address.value);
         e.preventDefault();
+        this.props.addService(this.state.name.value, this.state.address.value);
     }
     
     render() {

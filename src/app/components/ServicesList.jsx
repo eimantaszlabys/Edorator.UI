@@ -1,23 +1,64 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+class ServicesList extends React.Component {
+    constructor(props){
+        super(props);
 
-const ServicesList = ({addService, servicesList}) => (
-    <div>
-        <button type="button" className="btn btn-primary" onClick={addService}>Add Service</button>
+        this.renderStatus = this.renderStatus.bind(this);
+    }
 
-        <BootstrapTable data={servicesList} striped={true} hover={true}>
-            <TableHeaderColumn dataField="name" isKey={true} dataAlign="center" dataSort={true}>Product ID</TableHeaderColumn>
-            <TableHeaderColumn dataField="address" dataSort={true}>Product Name</TableHeaderColumn>
-            <TableHeaderColumn dataField="status">Status</TableHeaderColumn>
-        </BootstrapTable>
-    </div>
-);
+    renderStatus(status){
+        var element = <span>{status}</span>
+        switch (status) {
+            case 'Active':
+                element = <span className="label label-success">{status}</span>
+                break;
+        }
+
+        return element;
+    }
+    
+    render(){
+        if(!this.props.data){
+            return <div>Loading...</div>
+        }
+
+        let rows = [];
+
+        this.props.data.forEach(function(item) {
+            var item = 
+                <tr key={item.address}>
+                    <td>{item.name}</td>
+                    <td>{item.address}</td>
+                    <td>{this.renderStatus(item.status)}</td>
+                </tr>
+
+            rows.push(item);
+        }, this);
+
+        return(
+            <div>
+                <table className="table table-striped">
+                    <thead>
+                         <tr>
+                            <th>Name</th>
+                            <th>Address</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody> 
+                        {rows}
+                    </tbody>
+                </table>
+            </div>
+        )
+
+    }
+}
 
 ServicesList.propTypes  ={
-    addService: PropTypes.func.isRequired,
-    servicesList: PropTypes.array.isRequired
+    data: PropTypes.array.isRequired
 }
 
 export default ServicesList;

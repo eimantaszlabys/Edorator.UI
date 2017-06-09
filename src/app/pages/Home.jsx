@@ -22,9 +22,6 @@ class Home extends Component {
         this.props.loadServices();
     }
 
-    componentWillReceiveProps(nextProps) {
-    }
-
     userLogout(e) {
         this.props.onLogout();
         e.preventDefault();
@@ -44,10 +41,14 @@ class Home extends Component {
                 { this.props.errorMessage ?  <Alert bsStyle="danger"> 
                                 <strong>Error!</strong> {this.props.errorMessage}
                             </Alert> : '' }
-                <ServicesList 
-                    servicesList={this.props.services}
-                    addService={() => this.addNewService()}
-                />  
+
+                <div>
+                    <button type="button" className="btn btn-primary" onClick={() => this.addNewService()}>Add Service</button>
+                </div>
+
+                <div>
+                    <ServicesList data={this.props.services} />  
+                </div>
 
                 { this.state.showAddServiceModal ? <AddService /> : ''}
             </div>
