@@ -28,7 +28,7 @@ class ServicesList extends React.Component {
 
         this.props.data.forEach(function(item) {
             var element = 
-                <tr key={item.address}>
+                <tr key={item.address + item.name}>
                     <td>{item.name}</td>
                     <td>{item.address}</td>
                     <td>{this.renderStatus(item.status)}</td>

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { 
     Modal, 
     Button,
     Form,
     FormControl,
-    FormGroup,
-    Alert
+    FormGroup
 } from 'react-bootstrap';
 
 import { addService } from '../actions/services';
@@ -18,68 +18,125 @@ class AddService extends Component {
         this.state = {
             showModal: false,
             name: '',
-            address: ''
-        }
-    }
+            address: '',
+            validation: {
+                serviceName: null,
+                serviceIpAddress: null
+            }
+        };
 
-    componentWillMount() {
-        this.setState({ showModal: true });
+        this.closeAddServiceModal = this.closeAddServiceModal.bind(this);
+        this.saveAddServiceModal = this.saveAddServiceModal.bind(this);
+        this.serviceIpAddressChange = this.serviceIpAddressChange.bind(this);
+        this.serviceNameChange = this.serviceNameChange.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
-        if(!nextProps.errorMessage){
-            this.close();
-        }
+        if(nextProps){
+            this.setState({
+                showModal: nextProps.showModal
+            });
+        }   
     }
-    
-    close() {
+
+    closeAddServiceModal(){
         this.setState({ showModal: false });
     }
 
-    save(e) {
-        e.preventDefault();
-        this.props.addService(this.state.name.value, this.state.address.value);
+    saveAddServiceModal(){
+        this.props.addService(this.state.name, this.state.address);
+        this.closeAddServiceModal();
+    }
+
+    serviceIpAddressChange(value){
+        if(/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(value)){
+            this.setState({
+                validation: { 
+                    ...this.state.validation,
+                    serviceIpAddress: 'success'
+                },
+                address: value
+            });
+        }else{
+            this.setState({
+                validation: {
+                    ...this.state.validation,
+                    serviceIpAddress: 'error'
+                }
+            });
+        }
+    }
+
+    serviceNameChange(value){
+        if(value == null || value.length < 2)
+        {
+            this.setState({
+                validation: { 
+                    ...this.state.validation,
+                    serviceName: 'error' 
+                }
+            });
+        }else{
+            this.setState({
+                validation: { 
+                    ...this.state.validation,
+                    serviceName: 'success' 
+                },
+                name: value
+            });
+        }
+    }
+
+    saveButtonDisabled(){
+        return (
+            this.state.validation.serviceIpAddress === 'error' ||
+            this.state.validation.serviceName === 'error' ||
+            this.state.validation.serviceIpAddress === null||
+            this.state.validation.serviceName === null);
     }
     
     render() {
-        return (
-            <div>
-                <Modal show={this.state.showModal} onHide={this.close.bind(this)}>
+        return (<div>
+            <Modal show={this.state.showModal} onHide={this.closeAddServiceModal}>
                     <Modal.Header closeButton>
                         <Modal.Title>Add new Service</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        {
-                            this.props.errorMessage ?
-                            <Alert bsStyle="danger">
-                                <strong>Error!</strong> {this.props.errorMessage}
-                            </Alert> : '' 
-                        }
                         <Form>
-                            <FormGroup>
+                            <FormGroup validationState={this.state.validation.serviceName}>
                                 <FormControl 
+                                    id="serviceName"
                                     type="text" 
                                     placeholder="Service name"
-                                    inputRef={ref => { this.state.name = ref; }}
-                                    />
+                                    onChange={(e) => this.serviceNameChange(e.target.value)}
+                                />
                             </FormGroup>
-                            <FormGroup>
+                            <FormGroup validationState={this.state.validation.serviceIpAddress}>
                                 <FormControl 
-                                type="text" 
-                                placeholder="Service IP address"
-                                inputRef={ref => { this.state.address = ref; }} />
+                                    id="serviceIpAddress"
+                                    type="text" 
+                                    placeholder="Service IP address"
+                                    onChange={(e) => this.serviceIpAddressChange(e.target.value)}
+                                />
                             </FormGroup>
                         </Form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button bsStyle="primary" onClick={(e) => this.save(e)}>Save</Button>
-                        <Button onClick={this.close.bind(this)}>Close</Button>
+                        <Button 
+                            bsStyle="primary" 
+                            onClick={this.saveAddServiceModal} 
+                            disabled={this.saveButtonDisabled()}
+                        >Save</Button>
+                        <Button onClick={this.closeAddServiceModal}>Close</Button>
                     </Modal.Footer>
                 </Modal>
-            </div>
-        );
+            </div>);
     }
 }
+
+AddService.propTypes ={
+    showModal: PropTypes.bool
+};
 
 const mapStateToProps = (state) => {
     return {

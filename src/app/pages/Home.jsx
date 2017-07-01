@@ -3,18 +3,18 @@ import { connect } from 'react-redux';
 import { logout } from '../actions/auth';
 
 import Menu from '../components/Menu';
-import AddService from '../components/AddService';
 import ServicesList from '../components/ServicesList';
+import AddService from '../components/AddService';
 
 import { loadServices } from '../actions/services';
 
-import { Alert,  } from 'react-bootstrap';
+import { Alert } from 'react-bootstrap';
 
 class Home extends Component {
     constructor (props) {
         super(props);
         this.state = {
-            showAddServiceModal: false
+            showModal: false
         };
     }
 
@@ -27,14 +27,11 @@ class Home extends Component {
         e.preventDefault();
     }
 
-    addNewService() {
-        this.setState({ showAddServiceModal: true });
-    }
-    
     render() {
         if(!this.props.services){
             return <div>Loading...</div>;
         }
+
         return (
             <div>
                 <Menu logOutClick={(e) => this.userLogout(e)}/>
@@ -43,14 +40,14 @@ class Home extends Component {
                             </Alert> : '' }
 
                 <div>
-                    <button type="button" className="btn btn-primary" onClick={() => this.addNewService()}>Add Service</button>
+                    <button type="button" className="btn btn-primary" onClick={() => {this.setState({showModal: true});}}>Add Service</button>
                 </div>
 
                 <div>
                     <ServicesList data={this.props.services} />  
                 </div>
 
-                { this.state.showAddServiceModal ? <AddService /> : ''}
+                <AddService showModal={this.state.showModal}/>
             </div>
         );
     }
@@ -68,7 +65,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onLogout: () => { dispatch(logout()); },
-        loadServices: () => { dispatch(loadServices())}
+        loadServices: () => { dispatch(loadServices()); }
     };
 };
 
