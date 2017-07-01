@@ -1,22 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Dropdown from '../components/Dropdown';
+
 class ServicesList extends React.Component {
     constructor(props){
         super(props);
 
-        this.renderStatus = this.renderStatus.bind(this);
+        this.dropDownOnChange = this.dropDownOnChange.bind(this);
     }
 
-    renderStatus(status){
-        var element = <span>{status}</span>;
-        switch (status) {
-        case 'Active':
-            element = <span className="label label-success">{status}</span>;
-            break;
-        }
-
-        return element;
+    dropDownOnChange(value){
+        console.log('dropdownValue', value);
     }
     
     render(){
@@ -26,12 +21,34 @@ class ServicesList extends React.Component {
 
         let rows = [];
 
+        let options = [
+            {
+                action: 'Activate',
+                state: 'Activated'
+            },
+            {
+                action: 'Disable',
+                state: 'Disabled'
+            }
+        ];
+
         this.props.data.forEach(function(item) {
+            var elementKey = item.address + item.name;
             var element = 
-                <tr key={item.address + item.name}>
+                <tr key={elementKey}>
                     <td>{item.name}</td>
                     <td>{item.address}</td>
-                    <td>{this.renderStatus(item.status)}</td>
+                    <td>
+                        <Dropdown 
+                            key={elementKey}
+                            id={elementKey}
+                            options={options} 
+                            value={item.status}
+                            labelField='state'
+                            valueField='action'
+                            onChange={this.dropDownOnChange}
+                        />
+                    </td>
                 </tr>;
 
             rows.push(element);
