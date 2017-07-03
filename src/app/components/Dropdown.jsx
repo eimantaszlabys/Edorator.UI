@@ -13,7 +13,7 @@ class DropDown extends Component{
             labelField: 'label',
             onChange: null,
             selected: this.getSelectedFromProps(this.props),
-            bsStyle: this.getBsStyleFromProps(this.props)
+            status: this.getStatusFromProps(this.props)
         };
 
         this.handleOnChange = this.handleOnChange.bind(this);
@@ -21,22 +21,21 @@ class DropDown extends Component{
 
     componentWillReceiveProps(nextProps) {
         var selected = this.getSelectedFromProps(nextProps);
+        var status = this.getStatusFromProps(nextProps);
         this.setState({
-            selected: selected
+            selected: selected,
+            status: status
         });
     }
 
-    getBsStyleFromProps(props){
-        var style = 'default';
-
-        if(props.selected){
-            switch (props.selected) {
-            case 'Activated':
-                style = 'success';
-                break;
-            }
+    getStatusFromProps(props){
+        var status;
+        if(props.options.length !== 0){
+            status = props.options[0]['status'];
+        } else {
+            status = 'default';
         }
-        return style;
+        return status;
     }
 
     getSelectedFromProps(props){
@@ -63,7 +62,7 @@ class DropDown extends Component{
         }
         this.setState({ 
             selected: value,
-            bsStyle: this.getBsStyleFromProps(this.props)
+            status: this.getStatusFromProps(this.props)
         });
     }
 
@@ -81,7 +80,7 @@ class DropDown extends Component{
 
         return (
             <DropdownButton 
-                bsStyle={this.state.bsStyle}
+                bsStyle={this.state.status}
                 id={this.props.id}
                 title={this.state.selected}
                 onSelect={this.handleOnChange}

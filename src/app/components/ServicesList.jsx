@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Dropdown from '../components/Dropdown';
+import StatusDropDown from '../components/StatusDropDown';
 
 class ServicesList extends React.Component {
     constructor(props){
@@ -21,17 +21,6 @@ class ServicesList extends React.Component {
 
         let rows = [];
 
-        let options = [
-            {
-                action: 'Activate',
-                state: 'Activated'
-            },
-            {
-                action: 'Disable',
-                state: 'Disabled'
-            }
-        ];
-
         this.props.data.forEach(function(item) {
             var elementKey = item.address + item.name;
             var element = 
@@ -39,13 +28,9 @@ class ServicesList extends React.Component {
                     <td>{item.name}</td>
                     <td>{item.address}</td>
                     <td>
-                        <Dropdown 
-                            key={elementKey}
+                        <StatusDropDown
                             id={elementKey}
-                            options={options} 
-                            value={item.status}
-                            labelField='state'
-                            valueField='action'
+                            selectedStatus={item.status}
                             onChange={this.dropDownOnChange}
                         />
                     </td>
