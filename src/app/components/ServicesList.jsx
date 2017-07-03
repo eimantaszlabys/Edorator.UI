@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import StatusDropDown from '../components/StatusDropDown';
+import { updateServiceStatus } from '../actions/services';
 
 class ServicesList extends React.Component {
     constructor(props){
@@ -11,7 +13,8 @@ class ServicesList extends React.Component {
     }
 
     dropDownOnChange(value){
-        console.log('dropdownValue', value);
+        console.log(value);
+        this.props.updateServiceStatus(value.id, value.newValue);
     }
     
     render(){
@@ -22,14 +25,14 @@ class ServicesList extends React.Component {
         let rows = [];
 
         this.props.data.forEach(function(item) {
-            var elementKey = item.address + item.name;
             var element = 
-                <tr key={elementKey}>
+                <tr key={item.key}>
+                    <td>{item.key}</td>
                     <td>{item.name}</td>
                     <td>{item.address}</td>
                     <td>
                         <StatusDropDown
-                            id={elementKey}
+                            id={item.key}
                             selectedStatus={item.status}
                             onChange={this.dropDownOnChange}
                         />
@@ -44,6 +47,7 @@ class ServicesList extends React.Component {
                 <table className="table table-striped">
                     <thead>
                          <tr>
+                            <th>Number</th>
                             <th>Name</th>
                             <th>Address</th>
                             <th>Status</th>
@@ -63,4 +67,16 @@ ServicesList.propTypes  ={
     data: PropTypes.array
 };
 
-export default ServicesList;
+const mapStateToProps = (state) => {
+    return {
+        errorMessage: state.services.errorMessage
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        updateServiceStatus: (key, status) => { dispatch(updateServiceStatus(key, status)); }
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ServicesList);

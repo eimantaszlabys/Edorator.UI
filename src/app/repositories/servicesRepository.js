@@ -31,7 +31,25 @@ function LoadServices(token){
     return axios.get('http://localhost:5002/api/services', config);
 }
 
+function UpdateStatus(token, key, status){
+    const AuthStr = 'Bearer '.concat(token);
+
+    var data = { 'key': key, 'status': status };
+
+    var config = { 
+        withCredentials: true,
+        headers: {
+            'Authorization': AuthStr,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    };
+
+    return axios.put('http://localhost:5002/api/services',data, config);
+}
+
 export default {
     AddService,
-    LoadServices
+    LoadServices,
+    UpdateStatus
 };

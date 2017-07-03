@@ -16,6 +16,20 @@ export const addService = (name, address) => {
     };
 };
 
+export const updateServiceStatus = (key, status) => {
+    return (dispatch) => {
+        dispatch({ type: 'UPDATE_SERVICE_STATUS_BEGIN'});
+
+        return services.UpdateStatus(cookies.get('edoratorAuth'), key, status)
+            .then(() => {
+                dispatch({ type: 'UPDATE_SERVICE_STATUS_SUCCESS' });
+            })
+            .catch(error => { 
+                dispatch({ type: 'UPDATE_SERVICE_STATUS_ERROR', errorMessage: error.message });
+            });
+    };
+};
+
 export const loadServices = () => {
     return (dispatch) => {
         return services.LoadServices(cookies.get('edoratorAuth'))

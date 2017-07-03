@@ -12,7 +12,7 @@ var options = [{
 {
     label: 'Disable',
     activeLabel: 'Disabled',
-    status: 'error',
+    status: 'disabled',
     bsClass: 'danger'
 }];
 
@@ -87,10 +87,7 @@ class StatusDropDown extends Component {
     render(){
         var items = options.map((option) => {
             return (
-                <MenuItem
-                    key={option.status} 
-                    eventKey={option.status}
-                >
+                <MenuItem key={option.status} eventKey={option.status}>
                     {option.label}
                 </MenuItem>
             );
