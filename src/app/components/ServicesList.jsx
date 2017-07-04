@@ -1,20 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import StatusDropDown from '../components/StatusDropDown';
-import { updateServiceStatus } from '../actions/services';
 
 class ServicesList extends React.Component {
     constructor(props){
         super(props);
-
-        this.dropDownOnChange = this.dropDownOnChange.bind(this);
-    }
-
-    dropDownOnChange(value){
-        console.log(value);
-        this.props.updateServiceStatus(value.id, value.newValue);
     }
     
     render(){
@@ -34,7 +25,6 @@ class ServicesList extends React.Component {
                         <StatusDropDown
                             id={item.key}
                             selectedStatus={item.status}
-                            onChange={this.dropDownOnChange}
                         />
                     </td>
                 </tr>;
@@ -67,16 +57,4 @@ ServicesList.propTypes  ={
     data: PropTypes.array
 };
 
-const mapStateToProps = (state) => {
-    return {
-        errorMessage: state.services.errorMessage
-    };
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        updateServiceStatus: (key, status) => { dispatch(updateServiceStatus(key, status)); }
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ServicesList);
+export default ServicesList;

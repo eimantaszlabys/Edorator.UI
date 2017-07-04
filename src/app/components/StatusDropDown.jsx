@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { MenuItem, DropdownButton } from 'react-bootstrap';
+import { updateServiceStatus } from '../actions/services';
 
 var options = [{
     label: 'Activate',
@@ -50,7 +52,6 @@ class StatusDropDown extends Component {
             return item.status.toLowerCase() == props.selectedStatus.toLowerCase();
         });
     }
-
     handleOnChange(value){
         if(value === this.state.selected)
             return;
@@ -63,6 +64,9 @@ class StatusDropDown extends Component {
             };
             this.props.onChange(change);
         }
+        
+        this.props.updateServiceStatus(this.props.id, value);
+
         this.setState({ 
             selected: value
         });
@@ -111,4 +115,16 @@ StatusDropDown.propTypes  ={
     id: PropTypes.string.isRequired
 };
 
-export default StatusDropDown;
+const mapStateToProps = (state) => {
+    return {
+        errorMessage: state.services.errorMessage
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        updateServiceStatus: (key, status) => { dispatch(updateServiceStatus(key, status)); }
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(StatusDropDown);
