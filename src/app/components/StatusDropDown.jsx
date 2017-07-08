@@ -99,10 +99,11 @@ class StatusDropDown extends Component {
 
         return (
             <DropdownButton 
+                disabled={this.props.isLoading}
                 bsStyle={this.getStyle()}
                 id={this.props.id}
-                title={this.getTitle()}
-                onSelect={this.handleOnChange}
+                title={this.props.isLoading ? 'Loading...' : this.getTitle()}
+                onSelect={!this.props.isLoading ? this.handleOnChange : null}
             >
                 {items}
             </DropdownButton>);
@@ -117,7 +118,8 @@ StatusDropDown.propTypes  ={
 
 const mapStateToProps = (state) => {
     return {
-        errorMessage: state.services.errorMessage
+        errorMessage: state.services.errorMessage,
+        isLoading: state.services.isLoading
     };
 };
 

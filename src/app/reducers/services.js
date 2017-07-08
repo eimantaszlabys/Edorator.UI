@@ -27,6 +27,18 @@ export default function reducer(state = defaultState, action) {
             services: action.data
         };
     }
+    case 'UPDATE_SERVICE_STATUS_BEGIN':{
+        return {
+            ...state,
+            isLoading: true
+        };
+    }
+    case 'UPDATE_SERVICE_STATUS_SUCCESS':{
+        return {
+            ...state,
+            isLoading: false
+        };
+    }
     default: 
         return state;
     }
